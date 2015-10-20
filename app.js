@@ -10,8 +10,6 @@ app.use(express.static('./views'));
 // pointer to routes/gallery.js
 app.use('/gallery', gallery);
 
-
-
 var server = app.listen(3000, function() {
   var host = server.address().address;
   var port = server.address().address;
