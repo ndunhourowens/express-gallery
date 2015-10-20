@@ -1,0 +1,21 @@
+{
+  "name": "express-gallery",
+  "description": "Express Gallery ===============",
+  "main": "server.js",
+  "authors": [
+    "ndunhourowens <ndunhour@hotmail.com>"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/ndunhourowens/express-gallery",
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "foundation": "~5.5.3"
+  }
+}
