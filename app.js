@@ -1,25 +1,50 @@
 var express = require('express');
+var path = require('path');
 var app = express();
-var router = express.Router();
-var gallery = require('./routes/gallery');
-var index = require('./routes/index');
+// where the root (server) is located.
+app.use(express.static(path.join(__dirname, '/')));
 
-app.set('views', './views');
+// Path to Jade views
+app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 
-app.use(express.static('./public'));
+/*-----------
+    DATA
+------------*/
 
-// pointer to routes/index.js
-app.use('/index', index);
-// pointer to routes/gallery.js
-app.use('/gallery', gallery);
+var photoTag = {
+  image: 'some picture',
+  desc: 'blah blah'
+};
 
+/*-----------
+    ROUTES
+------------*/
 
-var server = app.listen(3000, function() {
-  var host = server.address().address;
-  var port = server.address().address;
-  console.log('testing');
+// Index route
+app.get('/', function(req, res, next){
+  res.render('index', {
+    title: '_ARCHITEKT',
+    info: 'Welcome to out online portfolio, we are small group of passionate designers and architects, looking to change and create amazing digital images to inspire others to follow in our innovative steps.  Free Architect WordPress Theme',
+    footer: 'Copyright www.fantasticnorway.no'
+  });
 });
 
+// Gallery route
+app.get('/gallery-detail', function(req, res, next){
+  res.render('gallery-detail', {
+    title: 'gallery-detail',
+    photo: photoTag
+  });
+});
 
-module.exports = router;
+// server function
+startServer();
+
+function startServer(){
+  var server = app.listen(3000, function(){
+    var port = server.address().port;
+    console.log('Listening on port' + port);
+
+  });
+}
