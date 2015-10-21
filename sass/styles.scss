@@ -8,12 +8,21 @@
 
 
 
-$bright : #FF0000;
+$dark : #7C777D;
+$white : #FFFFFF;
+
+
 
 body {
-  background: $bright;
+  background: $white;
+  color: $dark;
 }
 
 #wrapper {
   background: wrapper;
+}
+
+
+.container {
+  color: gray;
 }

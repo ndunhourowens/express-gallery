@@ -1,21 +1,19 @@
 var express = require('express');
 var app = express();
-var gallery = require('./routes/gallery');
 var router = express.Router();
+var gallery = require('./routes/gallery');
+var index = require('./routes/index');
 
-app.set('view engine', 'jade');
 app.set('views', './views');
+app.set('view engine', 'jade');
 
-app.use(express.static('./views'));
+app.use(express.static('./public'));
 
+// pointer to routes/index.js
+app.use('/index', index);
 // pointer to routes/gallery.js
 app.use('/gallery', gallery);
 
-app.get('/', function(req, res){
-  res.render('index', {
-    title: '_ARCHITEKT'
-  });
-});
 
 var server = app.listen(3000, function() {
   var host = server.address().address;

@@ -1,12 +1,7 @@
-doctype html
-html
-  head
-    title _ARCHITEKT
-    link(rel="stylesheet", href="/public/css/styles.css")
-  body
-    h1 testing
+extends ./index
 
-    div#wrapper
-      block content
-
-    include ./../partials/_footer
+block header
+  div#row
+    div(class="large 6 column")
+      div(class="header") #{header}
+      div(class="intro") #{intro}
