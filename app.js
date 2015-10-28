@@ -1,12 +1,22 @@
 var express = require('express');
-var path = require('path');
 var app = express();
+var path = require('path');
+var db = require('./models');
+var User = db.User;
 // where the root (server) is located.
 app.use(express.static(path.join(__dirname, '/')));
 
 // Path to Jade views
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
+
+/*-------------
+  BODY PARSER
+--------------*/
+
+var bodyParser = require('body-parser');
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended : true }));
 
 /*-----------
     DATA
@@ -38,12 +48,34 @@ app.get('/gallery-detail', function(req, res, next){
   });
 });
 
+
+/*------------------
+    CREATING DATA
+-------------------*/
+
+app.post('/users', function (req, res) {
+  User.create({ username: req.body.username })
+    .then(function (user) {
+      res.json(user);
+    });
+});
+app.get('/users', function(req, res) {
+  User.findAll()
+    .then(function (users) {
+      res.json(users);
+    });
+});
+
+
+
+
 // server function
 startServer();
 
 function startServer(){
   var server = app.listen(3000, function(){
     var port = server.address().port;
+    db.sequelize.sync();
     console.log('Listening on port' + port);
 
   });
