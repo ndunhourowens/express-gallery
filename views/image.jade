@@ -1,0 +1,15 @@
+
+//- extends to layout
+extends layout
+include ./mixins/gallery-images
+
+block image
+  div.row
+    div(class='medium-6 large-6 columns')
+    div(class='medium-6 large-6 columns')
+      h1 #{title}
+      p.lead #{description}
+      img(src='#{url}')
+
+  +generateImage(users)
+

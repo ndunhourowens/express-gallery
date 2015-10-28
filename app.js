@@ -22,10 +22,7 @@ app.use(bodyParser.urlencoded({ extended : true }));
     DATA
 ------------*/
 
-var photoTag = {
-  image: 'some picture',
-  desc: 'blah blah'
-};
+var photoTag = [];
 
 /*-----------
     ROUTES
@@ -43,8 +40,9 @@ app.get('/', function(req, res, next){
 // Gallery route
 app.get('/gallery-detail', function(req, res, next){
   res.render('gallery-detail', {
-    title: 'gallery-detail',
-    photo: photoTag
+    // title: photoTag[8].title,
+    // url: photoTag[8].url,
+    // description: photoTag[8].description
   });
 });
 
@@ -67,12 +65,17 @@ app.post('/users', function (req, res) {
 app.get('/users', function(req, res) {
   User.findAll()
     .then(function (users) {
-      res.json(users);
+      // res.json(users);
+      // var photos = res.json(users);
+      console.log(users[9]);
+      photoTag.push(users);
+      res.render('image', {
+        users: users
+      });
+
     });
 });
-
-
-
+console.log('photoTag', photoTag);
 
 // server function
 startServer();

@@ -2,11 +2,19 @@
 //- extends to layout
 extends layout
 
-block body
+block gallery
   div.row
     div(class='medium-12 large-12 columns')
       h1 #{title}
+      p something from gallery detail
       br
-      p #{photo.image}
+      img(src='#{url}')
       br
-      p #{photo.desc}
+      p #{description}
+
+
+
+  ul#books
+  +book("Book A", 12.99)
+  +book("Book B", 5.99)
+

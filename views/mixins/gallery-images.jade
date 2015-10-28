@@ -1,3 +1,17 @@
-mixin generateImage(photos)
-  .firstBox
-    h1 hi mixin
+mixin generateImage(users)
+  //- define rows
+  div.row
+    each user in users
+      div(class='small-12 medium-6 large-6')
+        ahrf-img
+        a(href='#{user.id}')
+          img(src='#{user.url}')
+        title
+        h2= user.title
+        p.lead= user.description
+
+      h2 testing mixin
+//- https://naltatis.github.io/jade-syntax-docs/
+
+//- check this out and work on the for & each
+
