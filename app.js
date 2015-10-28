@@ -54,7 +54,12 @@ app.get('/gallery-detail', function(req, res, next){
 -------------------*/
 
 app.post('/users', function (req, res) {
-  User.create({ username: req.body.username })
+  User.create({
+    title: req.body.title,
+    url: req.body.url,
+    description: req.body.description,
+    author: req.body.author
+  })
     .then(function (user) {
       res.json(user);
     });
