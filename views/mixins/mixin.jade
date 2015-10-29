@@ -1,7 +1,7 @@
-mixin generateImage(users)
+mixin generateImage(photos)
   //- define rows
   div.row
-    each user in users
+    each photo in photos
       div(id='thumb' class='small-12 medium-6 large-6')
         a(href='#{user.id}')
           img(src='#{user.url}')
@@ -17,7 +17,7 @@ mixin galleryHeaderImage(mainImage)
 
 //- add a photo
 mixin addAPhoto
-  form(action='/galleryID/new', method='post')
+  form(action='/gallery/new', method='post')
     div.row
       div(class='small-12 medium-12 large-12')
         label TITLE
@@ -40,23 +40,23 @@ mixin galleryHeader
       p.lead Welcome to out online portfolio, we are small group of passionate designers and architects, looking to change and create amazing digital images to inspire others to follow in our innovative steps.  Free Architect WordPress Theme
 
 
-//- galleryID main picture
-mixin idMainPic(mainImage)
+//- gallery main picture
+mixin idMainPic(mainImage, photos)
   div.row
     div(id='idMainPic' class='small-12 medium-8 large-8 columns')
       h2= mainImage.title
       img(src='#{mainImage.url}')
       p.lead= mainImage.description
-      a(href='/galleryID/new')
+      a(href='/gallery/new')
         button.btn(id='addPhoto' data-action='bea') ADD PHOTO
-      a(href='/galleryID:id/edit')
+      //- a(href='/gallery/:id/edit')
         button.btn(id='editPhoto' data-action='bea') EDIT PHOTO
 
     div(id='sidebarPics' class='small-12 medium-4 large-4 columns')
-      each user in users
-        a(href='#{user.id}')
-          img(src='#{user.url}')
-        h2= user.title
+      each photo in photos
+        a(href='#{photo.id}')
+          img(src='#{photo.url}')
+        h2= photo.title
 
 //- new header
 mixin headerTitle

@@ -2,7 +2,7 @@ var express = require('express');
 var app = express();
 var path = require('path');
 var db = require('./models');
-var User = db.User;
+var Photo = db.Photo;
 // where the root (server) is located.
 app.use(express.static(path.join(__dirname, '/')));
 
@@ -24,42 +24,42 @@ app.use(bodyParser.urlencoded({ extended : true }));
 ------------*/
 // index page
 app.get('/index', function (req, res) {
-  User.findAll()
-    .then(function (users){
+  Photo.findAll()
+    .then(function (photos){
       res.render('image', {
-        users: users,
-        mainImage: users.shift()
+        photos: photos,
+        mainImage: photos.shift()
     });
   });
 });
 
 
 // GalleryID route
-app.get('/galleryID', function (req, res, next){
-  User.findAll()
-    .then(function (users){
-      res.render('galleryID', {
-        users: users,
-        mainImage: users.shift()
+app.get('/gallery', function (req, res, next){
+  Photo.findAll()
+    .then(function (photos){
+      res.render('gallery', {
+        photos: photos,
+        mainImage: photos.shift()
     });
   });
 });
 
-app.get('/galleryID/new', function (req, res, next){
+app.get('/gallery/new', function (req, res, next){
   res.render('new', {
     work: 'hey work'
   });
 });
 
-app.post('/galleryID/new', function (req, res) {
-  User.create({
+app.post('/gallery/new', function (req, res) {
+  Photo.create({
     title: req.body.title,
     url: req.body.url,
     description: req.body.description,
     author: req.body.author
   })
-    .then(function (user) {
-      res.json(user);
+    .then(function (photo) {
+      res.redirect('/gallery');
       // res.render('new', {
       //   users: users,
       //   mainImage: 'test this shit out'
@@ -67,7 +67,7 @@ app.post('/galleryID/new', function (req, res) {
     });
 });
 
-app.get('/galleryID/signIn', function (req, res, next){
+app.get('/gallery/signIn', function (req, res, next){
   res.render('signIn', {
     wtf: 'will you work now?'
   });

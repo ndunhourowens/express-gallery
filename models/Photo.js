@@ -1,5 +1,5 @@
 module.exports = function(sequelize, DataTypes) {
-  var User = sequelize.define("User", {
+  var Photo = sequelize.define("Photo", {
     title: DataTypes.STRING,
     url: DataTypes.STRING,
     description: DataTypes.STRING,
@@ -7,10 +7,11 @@ module.exports = function(sequelize, DataTypes) {
   }, {
     classMethods: {
       associate: function(models) {
-        User.hasMany(models.Task);
+        // Photo.belongsTo(models.User);
       }
     }
   });
 
-  return User;
+  return Photo;
+
 };
