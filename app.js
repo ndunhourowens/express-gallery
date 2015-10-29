@@ -23,12 +23,12 @@ app.use(bodyParser.urlencoded({ extended : true }));
     ROUTES
 ------------*/
 // index page
-app.get('/index', function (req, res) {
+app.get('/', function (req, res) {
   Photo.findAll()
     .then(function (photos){
-      res.render('image', {
+      res.render('photo', {
         photos: photos,
-        mainImage: photos.shift()
+        mainPhoto: photos.shift()
     });
   });
 });
@@ -40,10 +40,20 @@ app.get('/gallery', function (req, res, next){
     .then(function (photos){
       res.render('gallery', {
         photos: photos,
-        mainImage: photos.shift()
+        mainPhoto: photos.shift()
     });
   });
 });
+
+app.get('/gallery/:id', function (req, res, next){
+  // res.send('gallery/' + req.params.id);
+  Photo.findOne({ where: { id: req.params.id }})
+    .then(function (post) {
+      console.log(post.dataValues);
+      res.render('singlePhoto', {photo: post.dataValues});
+    });
+});
+
 
 app.get('/gallery/new', function (req, res, next){
   res.render('new', {

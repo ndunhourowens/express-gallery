@@ -1,18 +1,18 @@
-mixin generateImage(photos)
+mixin generatePhoto(photos)
   //- define rows
   div.row
     each photo in photos
       div(id='thumb' class='small-12 medium-6 large-6')
-        a(href='#{user.id}')
-          img(src='#{user.url}')
-        h2= user.title
-        p.lead= user.description
+        a(href='./gallery/' + photo.id)
+          img(src='#{photo.url}')
+        h2= photo.title
+        p.lead= photo.description
 
 //- big picture in listing
-mixin galleryHeaderImage(mainImage)
+mixin galleryHeaderPhoto(mainPhoto)
   div.row
     div(class='small-12 medium-12 large-12')
-      img(src='#{mainImage.url}')
+      img(src='#{mainPhoto.url}')
 
 
 //- add a photo
@@ -37,16 +37,16 @@ mixin galleryHeader
     div(class='medium-6 large-6 columns')
       h1 _ARCHITEKT
     div(class='medium-6 large-6 columns')
-      p.lead Welcome to out online portfolio, we are small group of passionate designers and architects, looking to change and create amazing digital images to inspire others to follow in our innovative steps.  Free Architect WordPress Theme
+      p.lead Welcome to out online portfolio, we are small group of passionate designers and architects, looking to change and create amazing digital Photos to inspire others to follow in our innovative steps.  Free Architect WordPress Theme
 
 
 //- gallery main picture
-mixin idMainPic(mainImage, photos)
+mixin idMainPic(mainPhoto, photos)
   div.row
-    div(id='idMainPic' class='small-12 medium-8 large-8 columns')
-      h2= mainImage.title
-      img(src='#{mainImage.url}')
-      p.lead= mainImage.description
+    div(id='idMainPic' class='small-12 medium-12 large-12 columns')
+      h2= mainPhoto.title
+      img(src='#{mainPhoto.url}')
+      p.lead= mainPhoto.description
       a(href='/gallery/new')
         button.btn(id='addPhoto' data-action='bea') ADD PHOTO
       //- a(href='/gallery/:id/edit')
@@ -54,7 +54,7 @@ mixin idMainPic(mainImage, photos)
 
     div(id='sidebarPics' class='small-12 medium-4 large-4 columns')
       each photo in photos
-        a(href='#{photo.id}')
+        a(href='./gallery/' + photo.id)
           img(src='#{photo.url}')
         h2= photo.title
 
@@ -74,3 +74,12 @@ mixin signIn
         label PASSWORD
           input(type='text', name='password')
         button.btn(data-action='bea') SIGN IN
+
+//- singlePhoto
+mixin singlePhoto(photo)
+  div.row
+    div(class='small-12 medium-12 large-12')
+      h2= photo.title
+      a(href='./gallery/' + photo.id)
+          img(src='#{photo.url}')
+      p= photo.description
