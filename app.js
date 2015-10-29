@@ -29,20 +29,18 @@ var photoTag = [];
 ------------*/
 
 // Index route
-app.get('/', function(req, res, next){
-  res.render('index', {
-    title: '_ARCHITEKT',
-    info: 'Welcome to out online portfolio, we are small group of passionate designers and architects, looking to change and create amazing digital images to inspire others to follow in our innovative steps.  Free Architect WordPress Theme',
-    footer: 'Copyright www.fantasticnorway.no'
-  });
-});
+// app.get('/', function(req, res, next){
+//   res.render('index', {
+//     title: '_ARCHITEKT',
+//     info: 'Welcome to out online portfolio, we are small group of passionate designers and architects, looking to change and create amazing digital images to inspire others to follow in our innovative steps.  Free Architect WordPress Theme',
+//     footer: 'Copyright www.fantasticnorway.no'
+//   });
+// });
 
 // Gallery route
-app.get('/gallery-detail', function(req, res, next){
-  res.render('gallery-detail', {
-    // title: photoTag[8].title,
-    // url: photoTag[8].url,
-    // description: photoTag[8].description
+app.get('/gallery:id', function(req, res, next){
+  res.render('gallery:id', {
+
   });
 });
 
@@ -51,7 +49,7 @@ app.get('/gallery-detail', function(req, res, next){
     CREATING DATA
 -------------------*/
 
-app.post('/users', function (req, res) {
+app.post('/gallery', function (req, res) {
   User.create({
     title: req.body.title,
     url: req.body.url,
@@ -62,20 +60,15 @@ app.post('/users', function (req, res) {
       res.json(user);
     });
 });
-app.get('/users', function(req, res) {
+app.get('/index', function(req, res) {
   User.findAll()
-    .then(function (users) {
-      // res.json(users);
-      // var photos = res.json(users);
-      console.log(users[9]);
-      photoTag.push(users);
+    .then(function (users){
       res.render('image', {
-        users: users
-      });
-
+        users: users,
+        mainImage: users.shift()
     });
+  });
 });
-console.log('photoTag', photoTag);
 
 // server function
 startServer();

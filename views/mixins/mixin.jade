@@ -1,0 +1,43 @@
+mixin generateImage(users)
+  //- define rows
+  div.row
+    each user in users
+      div(id='thumb' class='small-12 medium-6 large-6')
+        ahrf-img
+        a(href='#{user.id}')
+          img(src='#{user.url}')
+        title
+        h2= user.title
+        p.lead= user.description
+
+//- big picture in listing
+mixin galleryHeaderImage(mainImage)
+  div.row
+    div(class='small-12 medium-12 large-12')
+
+      img(src='#{mainImage.url}')
+
+//- add a photo
+mixin addAPhoto
+  form(action='/gallery', method='post')
+    div.row
+      div(class='small-12 medium-12 large-12')
+        label TITLE
+          input(type='text', name='title')
+        label URL
+          input(type='text', name='url')
+        label DESCRIPTION
+          input(type='text', name='description')
+        label AUTHOR
+          input(type='text', name='author')
+        button.btn(data-action='bea') SUBMIT
+
+
+//- gallery header
+mixin galleryHeader
+  div.row
+    div(class='medium-6 large-6 columns')
+      h1 _ARCHITEKT
+    div(class='medium-6 large-6 columns')
+      p.lead Welcome to out online portfolio, we are small group of passionate designers and architects, looking to change and create amazing digital images to inspire others to follow in our innovative steps.  Free Architect WordPress Theme
+
