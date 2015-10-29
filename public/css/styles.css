@@ -2992,3 +2992,7 @@ body {
 /* line 21, stdin */
 #wrapper {
   background: wrapper; }
+
+/* line 25, stdin */
+#addPhoto {
+  margin-right: 20px; }

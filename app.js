@@ -23,7 +23,7 @@ app.use(bodyParser.urlencoded({ extended : true }));
     ROUTES
 ------------*/
 // index page
-app.get('/index', function(req, res) {
+app.get('/index', function (req, res) {
   User.findAll()
     .then(function (users){
       res.render('image', {
@@ -35,7 +35,7 @@ app.get('/index', function(req, res) {
 
 
 // GalleryID route
-app.get('/galleryID', function(req, res, next){
+app.get('/galleryID', function (req, res, next){
   User.findAll()
     .then(function (users){
       res.render('galleryID', {
@@ -45,7 +45,13 @@ app.get('/galleryID', function(req, res, next){
   });
 });
 
-app.post('/new', function (req, res) {
+app.get('/galleryID/new', function (req, res, next){
+  res.render('new', {
+    work: 'hey work'
+  });
+});
+
+app.post('/galleryID/new', function (req, res) {
   User.create({
     title: req.body.title,
     url: req.body.url,
@@ -54,8 +60,19 @@ app.post('/new', function (req, res) {
   })
     .then(function (user) {
       res.json(user);
+      // res.render('new', {
+      //   users: users,
+      //   mainImage: 'test this shit out'
+      // });
     });
 });
+
+app.get('/galleryID/signIn', function (req, res, next){
+  res.render('signIn', {
+    wtf: 'will you work now?'
+  });
+});
+
 
 
 // server function
