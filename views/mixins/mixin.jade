@@ -3,10 +3,8 @@ mixin generateImage(users)
   div.row
     each user in users
       div(id='thumb' class='small-12 medium-6 large-6')
-        ahrf-img
         a(href='#{user.id}')
           img(src='#{user.url}')
-        title
         h2= user.title
         p.lead= user.description
 
@@ -40,4 +38,19 @@ mixin galleryHeader
       h1 _ARCHITEKT
     div(class='medium-6 large-6 columns')
       p.lead Welcome to out online portfolio, we are small group of passionate designers and architects, looking to change and create amazing digital images to inspire others to follow in our innovative steps.  Free Architect WordPress Theme
+
+
+//- galleryID main picture
+mixin idMainPic(mainImage)
+  div.row
+    div(id='idMainPic' class='small-12 medium-8 large-8 columns')
+      h2= mainImage.title
+      img(src='#{mainImage.url}')
+      p.lead= mainImage.description
+
+    div(id='sidebarPics' class='small-12 medium-4 large-4 columns')
+      each user in users
+        a(href='#{user.id}')
+            img(src='#{user.url}')
+        h2= user.title
 

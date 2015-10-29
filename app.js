@@ -18,38 +18,34 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended : true }));
 
-/*-----------
-    DATA
-------------*/
-
-var photoTag = [];
 
 /*-----------
     ROUTES
 ------------*/
-
-// Index route
-// app.get('/', function(req, res, next){
-//   res.render('index', {
-//     title: '_ARCHITEKT',
-//     info: 'Welcome to out online portfolio, we are small group of passionate designers and architects, looking to change and create amazing digital images to inspire others to follow in our innovative steps.  Free Architect WordPress Theme',
-//     footer: 'Copyright www.fantasticnorway.no'
-//   });
-// });
-
-// Gallery route
-app.get('/gallery:id', function(req, res, next){
-  res.render('gallery:id', {
-
+// index page
+app.get('/index', function(req, res) {
+  User.findAll()
+    .then(function (users){
+      res.render('image', {
+        users: users,
+        mainImage: users.shift()
+    });
   });
 });
 
 
-/*------------------
-    CREATING DATA
--------------------*/
+// GalleryID route
+app.get('/galleryID', function(req, res, next){
+  User.findAll()
+    .then(function (users){
+      res.render('galleryID', {
+        users: users,
+        mainImage: users.shift()
+    });
+  });
+});
 
-app.post('/gallery', function (req, res) {
+app.post('/new', function (req, res) {
   User.create({
     title: req.body.title,
     url: req.body.url,
@@ -60,15 +56,7 @@ app.post('/gallery', function (req, res) {
       res.json(user);
     });
 });
-app.get('/index', function(req, res) {
-  User.findAll()
-    .then(function (users){
-      res.render('image', {
-        users: users,
-        mainImage: users.shift()
-    });
-  });
-});
+
 
 // server function
 startServer();
