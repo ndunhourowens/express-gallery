@@ -3,6 +3,7 @@ var app = express();
 var path = require('path');
 var db = require('./models');
 var Photo = db.Photo;
+var User = db.User;
 // where the root (server) is located.
 app.use(express.static(path.join(__dirname, '/')));
 
@@ -26,7 +27,7 @@ app.use(bodyParser.urlencoded({ extended : true }));
 app.get('/', function (req, res) {
   Photo.findAll()
     .then(function (photos){
-      res.render('photo', {
+      res.render('home', {
         photos: photos,
         mainPhoto: photos.shift()
     });
@@ -45,20 +46,11 @@ app.get('/gallery', function (req, res, next){
   });
 });
 
-app.get('/gallery/:id', function (req, res, next){
-  // res.send('gallery/' + req.params.id);
-  Photo.findOne({ where: { id: req.params.id }})
-    .then(function (post) {
-      console.log(post.dataValues);
-      res.render('singlePhoto', {photo: post.dataValues});
-    });
-});
+
 
 
 app.get('/gallery/new', function (req, res, next){
-  res.render('new', {
-    work: 'hey work'
-  });
+  res.render('new');
 });
 
 app.post('/gallery/new', function (req, res) {
@@ -70,10 +62,6 @@ app.post('/gallery/new', function (req, res) {
   })
     .then(function (photo) {
       res.redirect('/gallery');
-      // res.render('new', {
-      //   users: users,
-      //   mainImage: 'test this shit out'
-      // });
     });
 });
 
@@ -83,6 +71,28 @@ app.get('/gallery/signIn', function (req, res, next){
   });
 });
 
+app.post('/gallery/signIn', function (req, res, next){
+  User.create({
+    username: req.body.username,
+    password: req.body.password
+  })
+    .then(function (user) {
+      res.redirect('/gallery/:id');
+    });
+});
+
+app.get('/gallery/:id', function (req, res, next){
+  // res.send('gallery/' + req.params.id);
+  Photo.findOne({ where: { id: req.params.id }})
+    .then(function (post) {
+      console.log(post.dataValues);
+      res.render('singlePhoto', {photo: post.dataValues});
+    });
+});
+
+app.get('/gallery/:id/edit', function (req, res, next){
+  res.render('/gallery' + req.params.id);
+});
 
 
 // server function

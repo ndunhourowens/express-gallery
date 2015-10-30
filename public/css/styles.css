@@ -2994,5 +2994,13 @@ body {
   background: wrapper; }
 
 /* line 25, stdin */
-#addPhoto {
-  margin-right: 20px; }
+#galleryHeaderPhoto {
+  margin-bottom: 30px; }
+
+/* line 29, stdin */
+#sidebarPics {
+  margin-top: 75px; }
+
+/* line 33, stdin */
+button {
+  padding: 20px; }

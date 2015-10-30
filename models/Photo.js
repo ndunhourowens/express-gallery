@@ -3,11 +3,12 @@ module.exports = function(sequelize, DataTypes) {
     title: DataTypes.STRING,
     url: DataTypes.STRING,
     description: DataTypes.STRING,
-    author: DataTypes.STRING
+    author: DataTypes.STRING,
+    userId: DataTypes.INTEGER
   }, {
     classMethods: {
       associate: function(models) {
-        // Photo.belongsTo(models.User);
+        Photo.belongsTo(models.User, {foreignKey: 'userId'});
       }
     }
   });
