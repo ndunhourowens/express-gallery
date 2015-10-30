@@ -46,9 +46,6 @@ app.get('/gallery', function (req, res, next){
   });
 });
 
-
-
-
 app.get('/gallery/new', function (req, res, next){
   res.render('new');
 });
@@ -66,9 +63,7 @@ app.post('/gallery/new', function (req, res) {
 });
 
 app.get('/gallery/signIn', function (req, res, next){
-  res.render('signIn', {
-    wtf: 'will you work now?'
-  });
+  res.render('signIn');
 });
 
 app.post('/gallery/signIn', function (req, res, next){
@@ -77,7 +72,7 @@ app.post('/gallery/signIn', function (req, res, next){
     password: req.body.password
   })
     .then(function (user) {
-      res.redirect('/gallery/:id');
+      res.redirect('/gallery');
     });
 });
 
@@ -90,8 +85,12 @@ app.get('/gallery/:id', function (req, res, next){
     });
 });
 
-app.get('/gallery/:id/edit', function (req, res, next){
-  res.render('/gallery' + req.params.id);
+app.get('/gallery/edit/:id', function (req, res, next){
+  Photo.findOne({ where: { id: req.params.id }})
+    .then(function (post) {
+      console.log(post.dataValues);
+      res.render('singlePhotoEdit', {photo: post.dataValues});
+    });
 });
 
 

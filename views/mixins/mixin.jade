@@ -43,8 +43,6 @@ mixin idMainPic(mainPhoto, photos)
       p.lead= mainPhoto.description
       a(href='/gallery/new')
         button.btn(id='addPhoto' data-action='bea') ADD PHOTO
-      a(href='/gallery/:id/edit')
-        button.btn(id='editPhoto' data-action='bea') EDIT PHOTO
 
     div(id='sidebarPics' class='small-12 medium-4 large-4 columns')
       each photo in photos
@@ -53,18 +51,17 @@ mixin idMainPic(mainPhoto, photos)
         h2= photo.title
 
 
-//- ================== /singlePhoto ===============================
+//- ================== /singlePhoto ===========================
 
 //- singlePhoto
 mixin singlePhoto(photo)
   div.row
     div(class='small-12 medium-12 large-12 columns')
       h2= photo.title
-      a(href='./gallery/' + photo.id)
-          img(src='#{photo.url}')
+      img(src=photo.url)
       p= photo.description
 
-//- ================== /signIn ====================================
+//- ================== /signIn ================================
 
 //- sign in
 mixin signIn
@@ -75,6 +72,8 @@ mixin signIn
           input(type='text', name='username')
         label PASSWORD
           input(type='text', name='password')
+        a(href='/gallery/new')
+          button.btn(id='signIn' data-action='bea') SIGN IN
 
 
 
@@ -93,32 +92,30 @@ mixin addAPhoto
           input(type='text', name='description')
         label AUTHOR
           input(type='text', name='author')
+        a(href='/gallery/new')
+          button.btn(id='addPhoto' data-action='bea') ADD PHOTO
 
-//- ==================== add button =================================
+//- ==================== /editPhoto ======================================
 
-//- add button
-mixin addButton
-  div.row
-    div(class='large-12 colulmns')
-      a(href='/gallery/new')
-        button.btn(id='addPhoto' data-action='bea') ADD PHOTO
+//- edit a photo
+mixin editAPhoto
+  form(action='/gallery/singlePhotoEdit', method='put')
+    div.row
+      div(class='small-12 medium-12 large-12 columns')
+        label TITLE
+          input(type='text', name='title')
+        label URL
+          input(type='text', name='url')
+        label DESCRIPTION
+          input(type='text', name='description')
+        label AUTHOR
+          input(type='text', name='author')
+        a(href='/gallery')
+          button.btn(id='editPhoto' data-action='bea') EDIT PHOTO
 
-
-//- ==================== edit button =================================
-
-//- edit button
+//- ==================== /editPhoto ======================================
 mixin editButton
   div.row
-    div(class='large-12 colulmns')
-      a(href='/gallery/signIn')
+    div(class='small-12 medium-12 large-12 columns')
+      a(href="/gallery/edit/#{photo.id}")
         button.btn(id='editPhoto' data-action='bea') EDIT PHOTO
-
-
-//- ==================== signIn button ==============================
-
-//- signIn button
-mixin signInButton
-  div.row
-    div(class='large-12 colulmns')
-      a(href='/gallery/:id/edit')
-        button.btn(id='signInPhoto' data-action='bea') SIGN IN
