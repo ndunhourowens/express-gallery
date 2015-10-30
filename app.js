@@ -4,6 +4,8 @@ var path = require('path');
 var db = require('./models');
 var Photo = db.Photo;
 var User = db.User;
+var methodOverride = require('method-override')
+
 // where the root (server) is located.
 app.use(express.static(path.join(__dirname, '/')));
 
@@ -19,6 +21,14 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended : true }));
 
+app.use(methodOverride(function(req, res){
+  if (req.body && typeof req.body === 'object' && '_method' in req.body) {
+    // look in urlencoded POST bodies and delete it
+    var method = req.body._method;
+    delete req.body._method;
+    return method;
+  }
+}));
 
 /*-----------
     ROUTES
@@ -80,7 +90,6 @@ app.get('/gallery/:id', function (req, res, next){
   // res.send('gallery/' + req.params.id);
   Photo.findOne({ where: { id: req.params.id }})
     .then(function (post) {
-      console.log(post.dataValues);
       res.render('singlePhoto', {photo: post.dataValues});
     });
 });
@@ -88,8 +97,22 @@ app.get('/gallery/:id', function (req, res, next){
 app.get('/gallery/edit/:id', function (req, res, next){
   Photo.findOne({ where: { id: req.params.id }})
     .then(function (post) {
-      console.log(post.dataValues);
       res.render('singlePhotoEdit', {photo: post.dataValues});
+    });
+});
+
+app.put('/gallery/edit/:id', function (res, req, next){
+   //- find out a way to find by id
+    //- .then method (similar to index code)
+
+   Photo.update({
+    title: req.body.title,
+    url: req.body.url,
+    description: req.body.description,
+    author: req.body.author
+  })
+    .then(function (photo) {
+      res.redirect('/gallery/edit/:id');
     });
 });
 

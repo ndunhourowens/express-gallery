@@ -81,7 +81,7 @@ mixin signIn
 
 //- add a photo
 mixin addAPhoto
-  form(action='/gallery/new', method='post')
+  form(action='/gallery/new', method='POST')
     div.row
       div(class='small-12 medium-12 large-12 columns')
         label TITLE
@@ -99,7 +99,7 @@ mixin addAPhoto
 
 //- edit a photo
 mixin editAPhoto
-  form(action='/gallery/singlePhotoEdit', method='put')
+  form(action='/gallery/edit/#{photo.id}', method='POST')
     div.row
       div(class='small-12 medium-12 large-12 columns')
         label TITLE
@@ -110,8 +110,9 @@ mixin editAPhoto
           input(type='text', name='description')
         label AUTHOR
           input(type='text', name='author')
-        a(href='/gallery')
+        a(href='/gallery/edit/#{photo.id}')
           button.btn(id='editPhoto' data-action='bea') EDIT PHOTO
+          input(type='hidden' name='_method' value='PUT')
 
 //- ==================== /editPhoto ======================================
 mixin editButton
