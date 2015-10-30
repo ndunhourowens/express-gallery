@@ -4,7 +4,14 @@ var path = require('path');
 var db = require('./models');
 var Photo = db.Photo;
 var User = db.User;
-var methodOverride = require('method-override')
+var methodOverride = require('method-override');
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+var session = require('express-session');
+var flash = require('connect-flash');
+var session = require('express-session');
+
+
 
 // where the root (server) is located.
 app.use(express.static(path.join(__dirname, '/')));
@@ -12,6 +19,18 @@ app.use(express.static(path.join(__dirname, '/')));
 // Path to Jade views
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
+
+/* --------------------
+  Setting for passport
+----------------------*/
+
+app.use(session(
+{
+  secret: 'keyboard asdf',
+  resave: false,
+  saveUninitialized: true
+}
+));
 
 /*-------------
   BODY PARSER
@@ -29,6 +48,14 @@ app.use(methodOverride(function(req, res){
     return method;
   }
 }));
+
+/* ------------
+  Use - passport
+-------------- */
+
+app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session());
 
 /*-----------
     ROUTES
@@ -71,21 +98,78 @@ app.post('/gallery/new', function (req, res) {
       res.redirect('/gallery');
     });
 });
+// ===========  SIGN IN ============
 
-app.get('/gallery/signIn', function (req, res, next){
-  res.render('signIn');
+// track Sessions
+passport.serializeUser(function(user, done) {
+  done(null, user.id);
 });
 
-app.post('/gallery/signIn', function (req, res, next){
-  User.create({
-    username: req.body.username,
-    password: req.body.password
-  })
-    .then(function (user) {
-      res.redirect('/gallery');
+passport.deserializeUser(function(obj, done) {
+  // User.findById(id, function(err, user) {
+  // });
+    done(null, obj);
+});
+
+// configuration
+passport.use(new LocalStrategy(
+  function(username, password, done) {
+    User.findOne({ username: username }, function (err, user) {
+      if (err) { return done(err); }
+      if (!user) {
+        return done(null, false, { message: 'Incorrect username.' });
+      }
+      if (!user.validPassword(password)) {
+        return done(null, false, { message: 'Incorrect password.' });
+      }
+      return done(null, user);
     });
+  }
+));
+
+//- Route for signIn
+app.post('/gallery/signIn',
+  passport.authenticate('local', {  successRedirect: '/secret',
+                                    failureRedirect: '/gallery/signIn',
+                                    failureFlash: true})
+);
+app.get('/gallery/signIn', function (req, res){
+  res.render('signIn', {user: req.user, message: req.flash('error')});
+});
+app.get('/logout', function (req, res) {
+  req.logout();
+  reqredirect('/gallery');
+});
+app.get('/', function (req,res){
+  res.send('hello');
+});
+app.get('/secret', ensureAuthenticated, function (req, res){
+  res.send("secret");
 });
 
+function ensureAuthenticated(req, res, next){
+  if (req.isAuthenticated()) {return next();}
+  res.redirect('/gallery/signIn');
+}
+
+var User = {
+  findOne: function (opts, cb){
+    var user = {
+      id: 1,
+      username: opts.username,
+      password: "omi",
+      validPassword: function(password){
+        return (password === "omi");
+      }
+    };
+  cb( null, user );
+  }
+};
+
+
+
+
+// ========== END SIGN IN =========
 app.get('/gallery/:id', function (req, res, next){
   // res.send('gallery/' + req.params.id);
   Photo.findOne({ where: { id: req.params.id }})
@@ -101,20 +185,21 @@ app.get('/gallery/edit/:id', function (req, res, next){
     });
 });
 
-app.put('/gallery/edit/:id', function (res, req, next){
-   //- find out a way to find by id
-    //- .then method (similar to index code)
+// app.put('/gallery/edit/:id', function (res, req, next){
+//    //- find out a way to find by id
+//     //- .then method (similar to index code)
+//     //- promises
 
-   Photo.update({
-    title: req.body.title,
-    url: req.body.url,
-    description: req.body.description,
-    author: req.body.author
-  })
-    .then(function (photo) {
-      res.redirect('/gallery/edit/:id');
-    });
-});
+//    Photo.update({
+//     title: req.body.title,
+//     url: req.body.url,
+//     description: req.body.description,
+//     author: req.body.author
+//   })
+//     .then(function (photo) {
+//       res.redirect('/gallery/edit/:id');
+//     });
+// });
 
 
 // server function

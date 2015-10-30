@@ -65,16 +65,16 @@ mixin singlePhoto(photo)
 
 //- sign in
 mixin signIn
-  form(action='/galleryID/signIn', method='post')
+  form(action='/gallery/signIn', method='post')
     div.row
-      div(class='small-12 medium-12 large-12 columns')
+      div(class='small-12 medium-6 large-6 columns')
         label USERNAME
           input(type='text', name='username')
-        label PASSWORD
-          input(type='text', name='password')
-        a(href='/gallery/new')
-          button.btn(id='signIn' data-action='bea') SIGN IN
 
+          input(type='submit' value='SIGN IN')
+      div(class='small-12 medium-6 large-6 columns')
+        label PASSWORD
+          input(type='password', name='password')
 
 
 //- ==================== /new ======================================
@@ -120,3 +120,10 @@ mixin editButton
     div(class='small-12 medium-12 large-12 columns')
       a(href="/gallery/edit/#{photo.id}")
         button.btn(id='editPhoto' data-action='bea') EDIT PHOTO
+
+//- ==================== /signIn ======================================
+mixin signInButton
+  div.row
+    div(class='small-12 medium-12 large-12 columns')
+      a(href="/gallery/signIn")
+        button.btn(id='signIn' data-action='bea') SIGN IN
