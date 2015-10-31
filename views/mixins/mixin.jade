@@ -110,8 +110,7 @@ mixin editAPhoto
           input(type='text', name='description')
         label AUTHOR
           input(type='text', name='author')
-        a(href='/gallery/edit/#{photo.id}')
-          button.btn(id='editPhoto' data-action='bea') EDIT PHOTO
+          button.btn(id='update' data-action='bea') UPDATE
           input(type='hidden' name='_method' value='PUT')
 
 //- ==================== /editPhoto ======================================

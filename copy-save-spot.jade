@@ -1,34 +1,11 @@
-var bcrypt = require('bcrypt');
+//- eg of destroy - https://github.com/sequelize/express-example/blob/master/routes/users.js
 
-module.exports = function(sequelize, DataTypes) {
-  var User = sequelize.define("User", {
-    username: DataTypes.STRING,
-    password: {
-      type: DataTypes.CHAR(16),
-      required: true
+router.get('/:user_id/destroy', function(req, res) {
+  models.User.destroy({
+    where: {
+      id: req.params.user_id
     }
-  }, {
-    classMethods: {
-      associate: function(models) {
-        User.hasMany(models.Photo);
-      }
-    }, {
-    instanceMethods: {
-      validPassword: function (password){
-      return (bcrypt.hash(password) === this.password);
-      }
-    },
-
-    // insert a before create hook to bcrypt the password before it is stored in DB
-    hooks: {
-      beforeCreate: [
-      function () {
-        this.password = bcrypt.hass(this.password);
-      }
-    ]
-  }
-
+  }).then(function() {
+    res.redirect('/');
   });
-
-  return User;
-};
+});

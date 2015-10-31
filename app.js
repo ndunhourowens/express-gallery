@@ -129,7 +129,7 @@ passport.use(new LocalStrategy(
 
 //- Route for signIn
 app.post('/gallery/signIn',
-  passport.authenticate('local', {  successRedirect: '/secret',
+  passport.authenticate('local', {  successRedirect: '/gallery',
                                     failureRedirect: '/gallery/signIn',
                                     failureFlash: true})
 );
@@ -166,10 +166,10 @@ var User = {
   }
 };
 
-
-
-
 // ========== END SIGN IN =========
+
+
+
 app.get('/gallery/:id', function (req, res, next){
   // res.send('gallery/' + req.params.id);
   Photo.findOne({ where: { id: req.params.id }})
@@ -185,21 +185,26 @@ app.get('/gallery/edit/:id', function (req, res, next){
     });
 });
 
-// app.put('/gallery/edit/:id', function (res, req, next){
-//    //- find out a way to find by id
-//     //- .then method (similar to index code)
-//     //- promises
+app.put('/gallery/edit/:id', function (res, req){
+   //- find out a way to find by id
+   var id = req.params.id;
+   console.log(id);
+   User.findAndModify({query: {_id: User.id},
+      update: {set {}}
+    })
+  //  //- .then method (similar to index code)
+  //   //- promises
 
-//    Photo.update({
-//     title: req.body.title,
-//     url: req.body.url,
-//     description: req.body.description,
-//     author: req.body.author
-//   })
-//     .then(function (photo) {
-//       res.redirect('/gallery/edit/:id');
-//     });
-// });
+  //  Photo.update({
+  //   title: req.body.title,
+  //   url: req.body.url,
+  //   description: req.body.description,
+  //   author: req.body.author
+  // })
+  //   .then(function (photo) {
+  //     res.redirect('/gallery/edit/:id');
+  //   });
+});
 
 
 // server function
